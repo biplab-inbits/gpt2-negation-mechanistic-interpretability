@@ -55,10 +55,10 @@ We analyze pairs of positive and negated sentences constructed as follows:
 - Attention becomes more diffuse in deeper layers  
 
 ### Attention Heatmap
-![ Attention Heatmap ](attension_to_not_heatmap.png)
+![ Attention Heatmap ](attention_to_not_heatmap.png)
 
-### Average Attention 
-![ Averaged Attention ](attension_to_not_averaged.png)
+### Averaged Attention 
+![ Averaged Attention ](attention_to_not_averaged.png)
 
 ### Residual Difference by Layer
 ![ Residual Difference ](residual_diff_by_layer.png)
