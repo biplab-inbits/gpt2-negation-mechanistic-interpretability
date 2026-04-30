@@ -8,7 +8,6 @@ We analyze both the model’s **output behavior** and its **internal representat
 ## Research Question
 Does GPT-2 correctly incorporate negation into its predictions, and how is negation represented internally?
 
-## Methodology
 
 ## Methodology
 
@@ -55,17 +54,14 @@ We analyze pairs of positive and negated sentences constructed as follows:
 - Early layers (Layer 0 Head 0) attend strongly to *"not"* (~0.5–0.6)  
 - Attention becomes more diffuse in deeper layers  
 
-### Average Attention 
-![Averaged Attention]
-(attension_to_not_averaged.png)
-
 ### Attention Heatmap
-![Attention Heatmap]
-(attension_to_not_heatmap.png)
+![ Attention Heatmap ](attension_to_not_heatmap.png)
+
+### Average Attention 
+![ Averaged Attention ](attension_to_not_averaged.png)
 
 ### Residual Difference by Layer
-![Residual Difference]
-(residual_diff_by_layer.png)
+![ Residual Difference ](residual_diff_by_layer.png)
 
 ## Interpretation
 The model encodes negation internally, but this signal does not consistently influence final predictions.  
@@ -80,7 +76,6 @@ pip install transformer_lens torch matplotlib numpy
 2. Run all cells sequentially  
 3. Observe outputs and visualizations  
 
-## Project Structure
 
 ## Project Structure
 ```
