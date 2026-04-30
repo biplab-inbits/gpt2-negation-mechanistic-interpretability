@@ -55,6 +55,18 @@ We analyze pairs of positive and negated sentences constructed as follows:
 - Early layers (Layer 0 Head 0) attend strongly to *"not"* (~0.5–0.6)  
 - Attention becomes more diffuse in deeper layers  
 
+### Average Attention 
+![Averaged Attention]
+(attension_to_not_averaged.png)
+
+### Attention Heatmap
+![Attention Heatmap]
+(attension_to_not_heatmap.png)
+
+### Residual Difference by Layer
+![Residual Difference]
+(residual_diff_by_layer.png)
+
 ## Interpretation
 The model encodes negation internally, but this signal does not consistently influence final predictions.  
 This suggests a gap between internal computation and output generation,though further analysis is needed
@@ -71,11 +83,14 @@ pip install transformer_lens torch matplotlib numpy
 ## Project Structure
 
 ## Project Structure
-'''
+```
 .
 ├── negation.ipynb
-├── README.md
-'''
+├── attension_to_not_heatmap.png
+├──attension_to_not_averaged.png
+├──residual_diff_by_layer.png
+├──README.md
+```
 ## Tools
 - TransformerLens  
 - PyTorch  
