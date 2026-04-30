@@ -90,5 +90,4 @@ Read the complete investigation with analysis on LessWrong:
 
 Biplab Aditya : third-year BSc Computer Science student, West Bengal, India.
 Preparing for MATS Autumn 2026 (Neel Nanda's mechanistic 
-interpretability stream). This is the first of four planned 
-MI investigations.
+interpretability stream).
