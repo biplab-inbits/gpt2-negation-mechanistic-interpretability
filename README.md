@@ -70,8 +70,12 @@ pip install transformer_lens torch matplotlib numpy
 
 ## Project Structure
 
-. ├── negation.ipynb ├── README.md
-
+## Project Structure
+'''
+.
+├── negation.ipynb
+├── README.md
+'''
 ## Tools
 - TransformerLens  
 - PyTorch  
