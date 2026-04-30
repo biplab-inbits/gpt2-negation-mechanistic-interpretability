@@ -10,10 +10,28 @@ Does GPT-2 correctly incorporate negation into its predictions, and how is negat
 
 ## Methodology
 
-We compare sentence pairs such as:
+## Methodology
 
-- Positive: *"The movie is good"*  
-- Negated: *"The movie is not good"*
+We analyze pairs of positive and negated sentences constructed as follows:
+
+- "The sky is" → "The sky is not"
+- "Fire is" → "Fire is not"
+- "Ice is" → "Ice is not"
+- "Honey is" → "Honey is not"
+- "She is happy" → "She is not happy"
+- "The room is dark" → "The room is not dark"
+- "The food is good" → "The food is not good"
+- "He is guilty" → "He is not guilty"
+- "The water is clean" → "The water is not clean"
+- "The answer is correct" → "The answer is not correct"
+
+### Behavioral Analysis
+- Compare top-5 next-token predictions  
+- Measure overlap between positive and negated outputs  
+
+### Internal Analysis
+- Measure residual stream differences (L2 norm) across layers  
+- Analyze attention patterns directed at the token "not"
 
 ### Behavioral Analysis
 - Compare top-5 next-token predictions  
