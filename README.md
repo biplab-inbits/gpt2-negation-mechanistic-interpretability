@@ -11,7 +11,7 @@ Is it that the model never encodes "not" internally - or that it
 encodes it but fails to use it? This project investigates the 
 internal mechanism using TransformerLens.
 
-## Key Findings
+## Major Findings
 
 **Behavioral:** Average top-5 prediction overlap of 3.3/5 between 
 positive and negated sentences. GPT-2 partially ignores "not" 
@@ -76,15 +76,15 @@ beyond layer 2.
 
 ## How to Run
 
-git clone https://github.com/biplab-inbits/gpt2-negation-mechanistic-interpretability
-cd gpt2-negation-mechanistic-interpretability
-pip install transformer_lens matplotlib numpy
-# Open negation.ipynb in Jupyter and run all cells in order
+-git clone https://github.com/biplab-inbits/gpt2-negation-mechanistic-interpretability
+-cd gpt2-negation-mechanistic-interpretability
+-pip install transformer_lens matplotlib numpy
+-Open negation.ipynb in Jupyter and run all cells in order
 
 ## Full Write-up
 
 Read the complete investigation with analysis on LessWrong:
-[LESSWRONG LINK - add after publishing]
+[LESSWRONG LINK - soon]
 
 ## Author
 
