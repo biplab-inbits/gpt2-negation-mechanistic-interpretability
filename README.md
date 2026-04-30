@@ -1,99 +1,94 @@
-# Where Does GPT-2 Represent Negation?
-*A mechanistic interpretability study*
+# GPT-2 Negation: A Mechanistic Interpretability Investigation
 
-## Overview
-This project investigates how GPT-2 processes negation, focusing on the word **"not"**.  
-We analyze both the model’s **output behavior** and its **internal representations** across layers.
+A hands-on mechanistic interpretability investigation into how 
+GPT-2 small internally handles negation - behaviorally, 
+representationally, and mechanistically.
 
-## Research Question
-Does GPT-2 correctly incorporate negation into its predictions, and how is negation represented internally?
+## The Core Question
+
+GPT-2 is known to handle negation poorly behaviorally. But why?
+Is it that the model never encodes "not" internally - or that it 
+encodes it but fails to use it? This project investigates the 
+internal mechanism using TransformerLens.
+
+## Key Findings
+
+**Behavioral:** Average top-5 prediction overlap of 3.3/5 between 
+positive and negated sentences. GPT-2 partially ignores "not" 
+at the output level.
+
+**Residual Stream:** The internal difference between positive and 
+negated sentences grows monotonically across all 12 layers - 
+from 14.3 at layer 0 to 95.3 at layer 11.
+
+**Control Experiment:** Adding "very" or "quite" produces nearly 
+identical residual stream differences to adding "not" - within 
+6 L2 units at every layer. The growing difference is not specific 
+to negation. It reflects general modifier processing.
+
+**The Puzzle:** "not" and "very/quite" produce almost identical 
+internal representations across all 12 layers - yet only "not" 
+produces poor behavioral outcomes. The failure lives in the output 
+stage, not the representation stage.
+
+**Attention:** Layer 0 Head 0 shows the highest average attention 
+to "not" (~0.5–0.6). Attention becomes scattered and diffuse in 
+deeper layers. No single head consistently tracks negation 
+beyond layer 2.
+
+## Experiments
+
+- Behavioral prediction overlap across 10 positive/negated pairs
+- Residual stream L2 norm difference per layer (negation)
+- Control experiment: negation vs intensifier residual comparison
+- Attention heatmaps across all 144 heads (12 layers × 12 heads)
+
+## Visualizations
 
 
-## Methodology
 
-We analyze pairs of positive and negated sentences constructed as follows:
+![Residual stream difference by layer](residual_diff_by_layer.png)
 
-- "The sky is" → "The sky is not"
-- "Fire is" → "Fire is not"
-- "Ice is" → "Ice is not"
-- "Honey is" → "Honey is not"
-- "She is happy" → "She is not happy"
-- "The room is dark" → "The room is not dark"
-- "The food is good" → "The food is not good"
-- "He is guilty" → "He is not guilty"
-- "The water is clean" → "The water is not clean"
-- "The answer is correct" → "The answer is not correct"
 
-### Behavioral Analysis
-- Compare top-5 next-token predictions  
-- Measure overlap between positive and negated outputs  
 
-### Internal Analysis
-- Measure residual stream differences (L2 norm) across layers  
-- Analyze attention patterns directed at the token "not"
 
-### Behavioral Analysis
-- Compare top-5 next-token predictions  
-- Measure overlap between positive and negated outputs  
+![Negation vs control comparison](negation_vs_control.png)
 
-### Internal Analysis
-- Measure residual stream differences (L2 norm) across layers  
-- Analyze attention patterns directed at the token *"not"*  
 
-## Results
 
-### Behavioral
-- Average top-5 overlap: **3.3 / 5**  
-- Indicates partial failure to incorporate negation in predictions  
 
-### Residual Stream
-- L2 difference increases from **~14 → ~95** across 12 layers  
-- Indicates strong internal representation of negation  
+![Attention to not - single sentence](attention_to_not_heatmap.png)
 
-### Attention Patterns
-- Early layers (Layer 0 Head 0) attend strongly to *"not"* (~0.5–0.6)  
-- Attention becomes more diffuse in deeper layers  
 
-### Attention Heatmap
-![ Attention Heatmap ](attention_to_not_heatmap.png)
 
-### Averaged Attention 
-![ Averaged Attention ](attention_to_not_averaged.png)
 
-### Residual Difference by Layer
-![ Residual Difference ](residual_diff_by_layer.png)
+![Attention to not - averaged](attention_to_not_averaged.png)
 
-## Interpretation
-The model encodes negation internally, but this signal does not consistently influence final predictions.  
-This suggests a gap between internal computation and output generation,though further analysis is needed
- to identify where this signal is lost.
 
-## Requirements
-pip install transformer_lens torch matplotlib numpy
+
+## Tools and Setup
+
+- Python 3.11
+- TransformerLens
+- PyTorch
+- Matplotlib / NumPy
+- GPT-2 small (117M parameters)
 
 ## How to Run
-1. Open `negation.ipynb`  
-2. Run all cells sequentially  
-3. Observe outputs and visualizations  
 
+git clone https://github.com/biplab-inbits/gpt2-negation-mechanistic-interpretability
+cd gpt2-negation-mechanistic-interpretability
+pip install transformer_lens matplotlib numpy
+# Open negation.ipynb in Jupyter and run all cells in order
 
-## Project Structure
-```
-.
-├── negation.ipynb
-├── attension_to_not_heatmap.png
-├──attension_to_not_averaged.png
-├──residual_diff_by_layer.png
-├──README.md
-```
-## Tools
-- TransformerLens  
-- PyTorch  
-- Matplotlib  
+## Full Write-up
 
-## Write-up
-Coming soon (LessWrong post)
+Read the complete investigation with analysis on LessWrong:
+[LESSWRONG LINK - add after publishing]
 
-## Notes
-This project was developed as an initial exploration into mechanistic interpretability.
+## Author
 
+Biplab Aditya : third-year BSc Computer Science student, West Bengal, India.
+Preparing for MATS Autumn 2026 (Neel Nanda's mechanistic 
+interpretability stream). This is the first of four planned 
+MI investigations.
