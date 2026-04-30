@@ -4,7 +4,7 @@ A hands-on mechanistic interpretability investigation into how
 GPT-2 small internally handles negation - behaviorally, 
 representationally, and mechanistically.
 
-## The Core Question
+## The Question
 
 GPT-2 is known to handle negation poorly behaviorally. But why?
 Is it that the model never encodes "not" internally - or that it 
