@@ -1,47 +1,69 @@
-# GPT-2 Negation: A Mechanistic Interpretability Investigation
+# GPT-2 Linguistic Negation Investigation
 
-A hands-on mechanistic interpretability investigation into how 
-GPT-2 small internally handles negation - behaviorally, 
-representationally, and mechanistically.
+A causal mechanistic investigation into how GPT-2 Small internally 
+processes linguistic negation — and what the findings imply for 
+representation-behavior decoupling in language models.
 
 ## The Question
 
-GPT-2 is known to handle negation poorly behaviorally. But why?
-Is it that the model never encodes "not" internally - or that it 
-encodes it but fails to use it? This project investigates the 
-internal mechanism using TransformerLens.
+GPT-2 handles negation poorly behaviorally. But why?
+Is this a representation failure — or does the model encode "not" 
+internally but fail to use it?
 
-## Major Findings
+## Key Findings
 
-**Behavioral:** Average top-5 prediction overlap of 3.3/5 between 
-positive and negated sentences. GPT-2 partially ignores "not" 
-at the output level.
+**Behavioral:** Average top-5 prediction overlap of 3.3/5 across 
+10 positive/negated sentence pairs. Failure rate 50% by NES metric 
+(mean NES: +0.016).
 
-**Residual Stream:** The internal difference between positive and 
-negated sentences grows monotonically across all 12 layers - 
-from 14.3 at layer 0 to 95.3 at layer 11.
+**Residual Stream:** Internal difference grows monotonically across 
+all 12 layers — L2-norm 14.3 at layer 0 to 95.3 at layer 11.
 
-**Control Experiment:** Adding "very" or "quite" produces nearly 
-identical residual stream differences to adding "not" - within 
-6 L2 units at every layer. The growing difference is not specific 
-to negation. It reflects general modifier processing.
+**Control Experiment (main finding):** "not" and "very/quite" produce 
+nearly identical residual stream differences across all 12 layers, 
+within 6 L2 units at every layer. The behavioral failure is NOT a 
+representation failure — it is an output-stage failure. Internal 
+encoding and behavioral output decouple.
 
-**The Puzzle:** "not" and "very/quite" produce almost identical 
-internal representations across all 12 layers - yet only "not" 
-produces poor behavioral outcomes. The failure lives in the output 
-stage, not the representation stage.
+**NES Metric:** Implemented Negation Effect Score following 
+Al Mofael et al. (arXiv:2603.12423, 2026). Semantic domain matters —
+"She is not happy" shows strongest negation sensitivity (NES: -1.380) 
+while "Fire is not hot" fails strongly (NES: +1.050), suggesting 
+factual priors override negation cues in some templates.
 
-**Attention:** Layer 0 Head 0 shows the highest average attention 
-to "not" (~0.5–0.6). Attention becomes scattered and diffuse in 
-deeper layers. No single head consistently tracks negation 
-beyond layer 2.
+**Causal Patching:** L2H4 is the dominant head (delta NES: 0.2350). 
+Head 4 appears causally influential across multiple layers (L2H4, 
+L6H4, L4H7). The published paper (Al Mofael et al.) found L5H11 
+and L4H4 as key heads — the Head 4 overlap is notable and 
+warrants further investigation.
+
+**Attention:** Layer 0 Head 0 shows highest average attention to 
+"not" (~0.5–0.6). Attention becomes diffuse in deeper layers — 
+no single head consistently tracks negation beyond layer 2.
+
+## Safety Relevance
+
+The representation-behavior decoupling found here is structurally 
+analogous to what Apollo Research studies in frontier models — 
+where a model's internal state diverges from its behavioral output. 
+If this property exists in GPT-2 for something as simple as negation, 
+detecting misaligned cognition from behavior alone may be 
+fundamentally insufficient. Internal access via mechanistic 
+interpretability tools is necessary.
+
+This connects to the broader question AlexMeinke raises in 
+"Physics of RL" (LessWrong, 2026): can behavioral selection 
+produce internal representations that don't faithfully surface 
+in outputs? My negation data suggests yes, even in small models.
 
 ## Experiments
 
-- Behavioral prediction overlap across 10 positive/negated pairs
-- Residual stream L2 norm difference per layer (negation)
-- Control experiment: negation vs intensifier residual comparison
-- Attention heatmaps across all 144 heads (12 layers × 12 heads)
+- Behavioral prediction overlap (10 sentence pairs)
+- NES metric across 8 sentence pairs (failure rate: 50%)
+- Residual stream L2 norm difference per layer
+- Control experiment: negation vs intensifier ("very"/"quite")
+- Attention heatmaps across all 144 heads (12 × 12)
+- Causal influence map: delta NES per head via activation patching
 
 ## Visualizations
 
@@ -52,7 +74,9 @@ beyond layer 2.
 
 
 
+
 ![Negation vs control comparison](negation_vs_control.png)
+
 
 
 
@@ -62,32 +86,48 @@ beyond layer 2.
 
 
 
+
 ![Attention to not - averaged](attention_to_not_averaged.png)
 
 
 
-## Tools and Setup
+## Relation to Published Work
 
-- Python 3.11
-- TransformerLens
-- PyTorch
-- Matplotlib / NumPy
-- GPT-2 small (117M parameters)
+After completing this project, I discovered an independent published 
+analysis of negation circuits in GPT-2 (Al Mofael et al., 
+arXiv:2603.12423, March 2026). My findings on attention diffusion 
+and the representation-behavior dissociation partially converge 
+with and extend their results. The Head 4 overlap in causal 
+patching is a specific point of convergence worth investigating further.
+
+## Tools
+
+- Python 3.11 · TransformerLens · PyTorch · Matplotlib · NumPy
+- GPT-2 Small (117M parameters)
+
+## Key References
+
+- Al Mofael et al., "Interpreting Negation in GPT-2" 
+  arXiv:2603.12423 (2026)
+- Elhage et al., "A Mathematical Framework for Transformer 
+  Circuits" (2021)
+- Apollo Research, "Scheming Reasoning Evaluations" (2024)
+- AlexMeinke, "Physics of RL: Toy Scaling Laws for the Emergence 
+  of Reward-Seeking" LessWrong (2026)
 
 ## How to Run
 
--git clone https://github.com/biplab-inbits/gpt2-negation-mechanistic-interpretability
--cd gpt2-negation-mechanistic-interpretability
--pip install transformer_lens matplotlib numpy
--Open negation.ipynb in Jupyter and run all cells in order
+git clone https://github.com/biplab-inbits/gpt2-negation-mechanistic-interpretability
+cd gpt2-negation-mechanistic-interpretability
+pip install transformer_lens torch matplotlib numpy
+Open negation.ipynb in Jupyter and run all cells in order
 
 ## Full Write-up
 
-Read the complete investigation with analysis on LessWrong:
-[LESSWRONG LINK - soon]
+Read the complete investigation on LessWrong: [LINK]
 
 ## Author
 
-Biplab Aditya : third-year BSc Computer Science student, West Bengal, India.
-Preparing for MATS Autumn 2026 (Neel Nanda's mechanistic 
-interpretability stream).
+Biplab Aditya — BSc Computer Science, West Bengal, India.
+Applying to MATS Autumn 2026 (Apollo Research stream — 
+Science of Scheming).
