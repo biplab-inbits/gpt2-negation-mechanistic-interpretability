@@ -10,7 +10,7 @@ GPT-2 handles negation poorly behaviorally. But why?
 Is this a representation failure — or does the model encode "not" 
 internally but fail to use it?
 
-## Key Findings
+## Findings(More details in findings.md)
 
 **Behavioral:** Average top-5 prediction overlap of 3.3/5 across 
 10 positive/negated sentence pairs. Failure rate 50% by NES metric 
@@ -105,7 +105,7 @@ patching is a specific point of convergence worth investigating further.
 - Python 3.11 · TransformerLens · PyTorch · Matplotlib · NumPy
 - GPT-2 Small (117M parameters)
 
-## Key References
+## References
 
 - Al Mofael et al., "Interpreting Negation in GPT-2" 
   arXiv:2603.12423 (2026)
@@ -122,12 +122,8 @@ cd gpt2-negation-mechanistic-interpretability
 pip install transformer_lens torch matplotlib numpy
 Open negation.ipynb in Jupyter and run all cells in order
 
-## Full Write-up
-
-Read the complete investigation on LessWrong: [LINK]
-
 ## Author
 
 Biplab Aditya — BSc Computer Science, West Bengal, India.
-Applying to MATS Autumn 2026 (Apollo Research stream — 
+Applying to MATS Autumn 2026 (Apollo Research stream - 
 Science of Scheming).
